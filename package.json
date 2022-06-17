@@ -7,7 +7,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BloomInstituteOfTechnology/web-sprint-challenge-adding-data-persistence.git"
+    "url": "git+https://github.com/BloomInstituteOfTechnology/web-sprint-challenge-adding-data-persistence.git",
+    "server": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "start": "node index.js"
   },
   "license": "ISC",
   "devDependencies": {
