@@ -1,25 +1,18 @@
 // build your `/api/projects` router here
-const express = require('express');
-const router = express.Router();
-const Project = require('./model');
+const router = require('express').Router();
+const projectModel = require('./model');
+const PMW = require('./middleware');
 
-router.get('/', (req, res) => {
-  Project.getProjects()
-    .then((projects) => {
-      res.status(200).json(projects);
-    })
-    .catch((error) => {
-      res.status({ status: 500, message: error });
-    });
-});
+router.get('/', (req, res, next) => {
+    projectModel.findAll()
+        .then(projects => res.send(projects))
+        .catch(next);
+})
 
-router.post('/', (req, res) => {
-  Project.addProject(req.body)
-    .then((project) => {
-      res.status(201).json(project);
-    })
-    .catch((error) => {
-      res.status(500).json({ message: error });
-    });
-});
+router.post('/', PMW.validateProjName, (req, res, next) => {
+    projectModel.insert(req.body)
+        .then(newProject => res.status(201).send(newProject))
+        .catch(next);
+})
+
 module.exports = router;
